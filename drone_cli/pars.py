@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 © Copyright 2015-2016, 3D Robotics.
 vehicle_state.py:
@@ -14,27 +13,26 @@ from __future__ import print_function
 from dronekit import connect, VehicleMode
 import time
 import requests
-URL = "http://13.125.54.237:3000/memo"
+import argparse
+
 
 
 #Set up option parsing to get connection string
-import argparse
 parser = argparse.ArgumentParser(description='Print out vehicle state information. Connects to SITL on local PC by default.')
 parser.add_argument('--connect',
                    help="vehicle connection target string. If not specified, SITL automatically started and used.")
 args = parser.parse_args()
 
-connection_string = '/dev/ttyACM0'
 
+connection_string = '/dev/ttyACM0'
+URL = "http://13.125.54.237:3000/memo"
 
 
 # Connect to the Vehicle.
 #   Set `wait_ready=True` to ensure default attributes are populated before `connect()` returns.
 print("\nConnecting to vehicle on: %s" % connection_string)
 vehicle = connect(connection_string, wait_ready=True)
-
 vehicle.wait_ready('autopilot_version')
-
 ff=0
 
 while True:
@@ -73,14 +71,10 @@ while True:
         'Airspeed': "%s"%vehicle.airspeed,
         'Mode': "%s"%vehicle.mode.name,
         'Armed': "%s"%vehicle.armed})
-
     ff+=1
     time.sleep(3)
-
 
 #Close vehicle object before exiting script
 print("\nClose vehicle object")
 vehicle.close()
-
-
 print("Completed")
