@@ -94,7 +94,6 @@ while True:
         'Armed': "%s"%vehicle.armed,
         'User': "%s"%user,
         'Time': "%s"%curtime})
-
         
     ff=ff+1
     time.sleep(2)
@@ -102,15 +101,12 @@ while True:
         break
     
 time.sleep(2)
+
 #Close vehicle object before exiting script
 print("\nClose vehicle object")
 vehicle.close()
-
-
 print("Completed")
-
 print("Blocking Drone Controll")
-
 time.sleep(5)
 subprocess.call('./stop.sh', shell=True)
 

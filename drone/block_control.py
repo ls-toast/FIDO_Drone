@@ -13,7 +13,6 @@ master.wait_heartbeat()
 
 master.mav.param_request_list_send(master.target_system, master.target_component)
 master.mav.param_request_read_send(master.target_system, master.target_component, b'CBRK_IO_SAFETY', -1)
-#master.mav.param_request_read_send(master.target_system, master.target_component, b'CBRK_IO_SAFETY', -1)
 print('param recv complete')
 
 '''
@@ -30,8 +29,6 @@ while True:
 time.sleep(0.5)
 # Set io process
 master.mav.param_set_send(master.target_system, master.target_component, b'CBRK_IO_SAFETY', 0, mavutil.mavlink.MAV_PARAM_TYPE_INT32)
-#master.mav.param_set_send(master.target_system, master.target_component, b'CBRK_USB_CHK', 0, mavutil.mavlink.MAV_PARAM_TYPE_INT32)
-#master.mav.param_set_send(master.target_system, master.target_component, b'CBRK_SUPPLY_CHK', 0, mavutil.mavlink.MAV_PARAM_TYPE_INT32)
 print('io set complete')
 
 
@@ -41,23 +38,17 @@ message=None
 while num<50:
     try:
         message = master.recv_match().to_dict()
-        #print('name: %s\tvalue: %f' % (message['param_id'].decode("utf-8"), message['param_value']))
         num=num+1
     except Exception as e:
         break
 
-#master.recv_match().to_dict()
 
 # request param to confirm
 master.mav.param_request_read_send(master.target_system, master.target_component, b'CBRK_IO_SAFETY', -1)
-#master.mav.param_request_read_send(master.target_system, master.target_component, b'CBRK_USB_CHK', -1)
-#master.mav.param_request_read_send(master.target_system, master.target_component, b'CBRK_SUPPLY_CHK', -1)
 print('io request complete')
 
 
 # USB set
-#
-#
 master.mav.param_request_read_send(master.target_system, master.target_component, b'CBRK_USB_CHK', -1)
 master.mav.param_set_send(master.target_system, master.target_component, b'CBRK_USB_CHK', 0, mavutil.mavlink.MAV_PARAM_TYPE_INT32)
 # read ACK, IMPORTANT
@@ -66,7 +57,6 @@ message=None
 while num<50:
     try:
         message = master.recv_match().to_dict()
-        #print('name: %s\tvalue: %f' % (message['param_id'].decode("utf-8"), message['param_value']))
         num=num+1
     except Exception as e:
         break
